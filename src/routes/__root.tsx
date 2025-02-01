@@ -25,6 +25,22 @@ export const Route = createRootRoute({
 							<NavigationMenuLink>Home</NavigationMenuLink>
 						</Link>
 					</NavigationMenuItem>
+					<NavigationMenuItem>
+						<Link
+							to='/login'
+							className='[&.active]:border-b-2 [&.active]:text-red-500 pb-1 border-red-500'
+						>
+							<NavigationMenuLink>Login</NavigationMenuLink>
+						</Link>
+					</NavigationMenuItem>
+					<NavigationMenuItem>
+						<Link
+							to='/transaction'
+							className='[&.active]:border-b-2 [&.active]:text-red-500 pb-1 border-red-500'
+						>
+							<NavigationMenuLink>Transactions</NavigationMenuLink>
+						</Link>
+					</NavigationMenuItem>
 				</NavigationMenuList>
 			</NavigationMenu>
 			<hr />
