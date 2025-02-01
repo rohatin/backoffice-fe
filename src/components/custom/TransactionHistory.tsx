@@ -4,9 +4,10 @@ import { TransactionType } from 'backoffice-api-sdk/structures/transaction-type.
 import { TransactionSubType } from 'backoffice-api-sdk/structures/transaction-subtype.enum'
 import { TransactionDTO } from 'backoffice-api-sdk/structures/TransactionDTO'
 import { Badge } from "@/components/ui/badge"
+import { motion } from "framer-motion"
 
 // Mock data for transactions
-const transactions: TransactionDTO[] = [
+const transactionsMock: TransactionDTO[] = [
   {
     id: 1,
     type: TransactionType.deposit,
@@ -77,7 +78,7 @@ const getTypeColor = (type: TransactionType) => {
   }
 }
 
-export default function TransactionHistory() {
+export default function TransactionHistory({transactions}: {transactions: TransactionDTO[]} = {transactions: transactionsMock}) {
   return (
     <Table>
       <TableHeader>
@@ -89,9 +90,14 @@ export default function TransactionHistory() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {transactions.map((transaction) => (
-          <TableRow key={transaction.id}>
-            <TableCell>{transaction.createdAt.toLocaleDateString()}</TableCell>
+        {transactions.map((transaction, index) => (
+          <motion.tr
+            key={transaction.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, duration: 0.3 }}
+          >
+            <TableCell>{new Date(transaction.createdAt).toLocaleDateString()}</TableCell>
             <TableCell>
               <span className={`font-medium ${getTypeColor(transaction.type)}`}>{transaction.type}</span>
               <span className="text-xs text-gray-500 ml-1">({transaction.subType})</span>
@@ -102,10 +108,9 @@ export default function TransactionHistory() {
             <TableCell>
               <Badge className={getStatusColor(transaction.status)}>{transaction.status}</Badge>
             </TableCell>
-          </TableRow>
+          </motion.tr>
         ))}
       </TableBody>
     </Table>
   )
 }
-

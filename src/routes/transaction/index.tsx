@@ -13,7 +13,7 @@ const Dashboard = () => {
             <CardTitle className="text-2xl font-semibold text-gray-700">Transaction History</CardTitle>
           </CardHeader>
           <CardContent>
-            <TransactionHistory />
+            <TransactionHistory transactions={[]}/>
           </CardContent>
         </Card>
         <Card>

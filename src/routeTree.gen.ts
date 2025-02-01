@@ -15,6 +15,9 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as TransactionIndexImport } from './routes/transaction/index'
 import { Route as LoginIndexImport } from './routes/login/index'
+import { Route as adminUsersIndexImport } from './routes/(admin)/users/index'
+import { Route as adminEditRolesIndexImport } from './routes/(admin)/edit-roles/index'
+import { Route as adminUsersExpanedViewUserIdImport } from './routes/(admin)/users/expaned-view.$userId'
 
 // Create Virtual Routes
 
@@ -39,6 +42,25 @@ const LoginIndexRoute = LoginIndexImport.update({
   path: '/login/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const adminUsersIndexRoute = adminUsersIndexImport.update({
+  id: '/(admin)/users/',
+  path: '/users/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const adminEditRolesIndexRoute = adminEditRolesIndexImport.update({
+  id: '/(admin)/edit-roles/',
+  path: '/edit-roles/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const adminUsersExpanedViewUserIdRoute =
+  adminUsersExpanedViewUserIdImport.update({
+    id: '/(admin)/users/expaned-view/$userId',
+    path: '/users/expaned-view/$userId',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -65,6 +87,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TransactionIndexImport
       parentRoute: typeof rootRoute
     }
+    '/(admin)/edit-roles/': {
+      id: '/(admin)/edit-roles/'
+      path: '/edit-roles'
+      fullPath: '/edit-roles'
+      preLoaderRoute: typeof adminEditRolesIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(admin)/users/': {
+      id: '/(admin)/users/'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof adminUsersIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(admin)/users/expaned-view/$userId': {
+      id: '/(admin)/users/expaned-view/$userId'
+      path: '/users/expaned-view/$userId'
+      fullPath: '/users/expaned-view/$userId'
+      preLoaderRoute: typeof adminUsersExpanedViewUserIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -74,12 +117,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/login': typeof LoginIndexRoute
   '/transaction': typeof TransactionIndexRoute
+  '/edit-roles': typeof adminEditRolesIndexRoute
+  '/users': typeof adminUsersIndexRoute
+  '/users/expaned-view/$userId': typeof adminUsersExpanedViewUserIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/login': typeof LoginIndexRoute
   '/transaction': typeof TransactionIndexRoute
+  '/edit-roles': typeof adminEditRolesIndexRoute
+  '/users': typeof adminUsersIndexRoute
+  '/users/expaned-view/$userId': typeof adminUsersExpanedViewUserIdRoute
 }
 
 export interface FileRoutesById {
@@ -87,14 +136,36 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/login/': typeof LoginIndexRoute
   '/transaction/': typeof TransactionIndexRoute
+  '/(admin)/edit-roles/': typeof adminEditRolesIndexRoute
+  '/(admin)/users/': typeof adminUsersIndexRoute
+  '/(admin)/users/expaned-view/$userId': typeof adminUsersExpanedViewUserIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/transaction'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/transaction'
+    | '/edit-roles'
+    | '/users'
+    | '/users/expaned-view/$userId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/transaction'
-  id: '__root__' | '/' | '/login/' | '/transaction/'
+  to:
+    | '/'
+    | '/login'
+    | '/transaction'
+    | '/edit-roles'
+    | '/users'
+    | '/users/expaned-view/$userId'
+  id:
+    | '__root__'
+    | '/'
+    | '/login/'
+    | '/transaction/'
+    | '/(admin)/edit-roles/'
+    | '/(admin)/users/'
+    | '/(admin)/users/expaned-view/$userId'
   fileRoutesById: FileRoutesById
 }
 
@@ -102,12 +173,18 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   LoginIndexRoute: typeof LoginIndexRoute
   TransactionIndexRoute: typeof TransactionIndexRoute
+  adminEditRolesIndexRoute: typeof adminEditRolesIndexRoute
+  adminUsersIndexRoute: typeof adminUsersIndexRoute
+  adminUsersExpanedViewUserIdRoute: typeof adminUsersExpanedViewUserIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   LoginIndexRoute: LoginIndexRoute,
   TransactionIndexRoute: TransactionIndexRoute,
+  adminEditRolesIndexRoute: adminEditRolesIndexRoute,
+  adminUsersIndexRoute: adminUsersIndexRoute,
+  adminUsersExpanedViewUserIdRoute: adminUsersExpanedViewUserIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -122,7 +199,10 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/login/",
-        "/transaction/"
+        "/transaction/",
+        "/(admin)/edit-roles/",
+        "/(admin)/users/",
+        "/(admin)/users/expaned-view/$userId"
       ]
     },
     "/": {
@@ -133,6 +213,15 @@ export const routeTree = rootRoute
     },
     "/transaction/": {
       "filePath": "transaction/index.tsx"
+    },
+    "/(admin)/edit-roles/": {
+      "filePath": "(admin)/edit-roles/index.tsx"
+    },
+    "/(admin)/users/": {
+      "filePath": "(admin)/users/index.tsx"
+    },
+    "/(admin)/users/expaned-view/$userId": {
+      "filePath": "(admin)/users/expaned-view.$userId.tsx"
     }
   }
 }

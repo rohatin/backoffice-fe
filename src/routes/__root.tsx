@@ -41,6 +41,31 @@ export const Route = createRootRoute({
 							<NavigationMenuLink>Transactions</NavigationMenuLink>
 						</Link>
 					</NavigationMenuItem>
+					<NavigationMenuItem>
+						<Link
+							to='/edit-roles'
+							className='[&.active]:border-b-2 [&.active]:text-red-500 pb-1 border-red-500'
+						>
+							<NavigationMenuLink>Edit Roles</NavigationMenuLink>
+						</Link>
+					</NavigationMenuItem>
+					<NavigationMenuItem>
+						<Link
+							to='/users'
+							className='[&.active]:border-b-2 [&.active]:text-red-500 pb-1 border-red-500'
+						>
+							<NavigationMenuLink>Users</NavigationMenuLink>
+						</Link>
+					</NavigationMenuItem>
+					<NavigationMenuItem>
+						<Link
+							to='/users/expaned-view/$userId'
+							className='[&.active]:border-b-2 [&.active]:text-red-500 pb-1 border-red-500'
+							params={{ userId: '1' }}
+						>
+							<NavigationMenuLink>User expanded view</NavigationMenuLink>
+						</Link>
+					</NavigationMenuItem>
 				</NavigationMenuList>
 			</NavigationMenu>
 			<hr />
