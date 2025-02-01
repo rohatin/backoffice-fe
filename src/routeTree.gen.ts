@@ -13,11 +13,11 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TransactionIndexImport } from './routes/transaction/index'
 import { Route as LoginIndexImport } from './routes/login/index'
-import { Route as adminUsersIndexImport } from './routes/(admin)/users/index'
-import { Route as adminEditRolesIndexImport } from './routes/(admin)/edit-roles/index'
-import { Route as adminUsersExpanedViewUserIdImport } from './routes/(admin)/users/expaned-view.$userId'
+import { Route as protectedTransactionIndexImport } from './routes/(protected)/transaction/index'
+import { Route as protectedadminUsersIndexImport } from './routes/(protected)/(admin)/users/index'
+import { Route as protectedadminEditRolesIndexImport } from './routes/(protected)/(admin)/edit-roles/index'
+import { Route as protectedadminUsersExpanedViewUserIdImport } from './routes/(protected)/(admin)/users/expaned-view.$userId'
 
 // Create Virtual Routes
 
@@ -31,33 +31,34 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-const TransactionIndexRoute = TransactionIndexImport.update({
-  id: '/transaction/',
-  path: '/transaction/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const LoginIndexRoute = LoginIndexImport.update({
   id: '/login/',
   path: '/login/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const adminUsersIndexRoute = adminUsersIndexImport.update({
-  id: '/(admin)/users/',
+const protectedTransactionIndexRoute = protectedTransactionIndexImport.update({
+  id: '/(protected)/transaction/',
+  path: '/transaction/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const protectedadminUsersIndexRoute = protectedadminUsersIndexImport.update({
+  id: '/(protected)/(admin)/users/',
   path: '/users/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const adminEditRolesIndexRoute = adminEditRolesIndexImport.update({
-  id: '/(admin)/edit-roles/',
-  path: '/edit-roles/',
-  getParentRoute: () => rootRoute,
-} as any)
+const protectedadminEditRolesIndexRoute =
+  protectedadminEditRolesIndexImport.update({
+    id: '/(protected)/(admin)/edit-roles/',
+    path: '/edit-roles/',
+    getParentRoute: () => rootRoute,
+  } as any)
 
-const adminUsersExpanedViewUserIdRoute =
-  adminUsersExpanedViewUserIdImport.update({
-    id: '/(admin)/users/expaned-view/$userId',
+const protectedadminUsersExpanedViewUserIdRoute =
+  protectedadminUsersExpanedViewUserIdImport.update({
+    id: '/(protected)/(admin)/users/expaned-view/$userId',
     path: '/users/expaned-view/$userId',
     getParentRoute: () => rootRoute,
   } as any)
@@ -80,32 +81,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexImport
       parentRoute: typeof rootRoute
     }
-    '/transaction/': {
-      id: '/transaction/'
+    '/(protected)/transaction/': {
+      id: '/(protected)/transaction/'
       path: '/transaction'
       fullPath: '/transaction'
-      preLoaderRoute: typeof TransactionIndexImport
+      preLoaderRoute: typeof protectedTransactionIndexImport
       parentRoute: typeof rootRoute
     }
-    '/(admin)/edit-roles/': {
-      id: '/(admin)/edit-roles/'
+    '/(protected)/(admin)/edit-roles/': {
+      id: '/(protected)/(admin)/edit-roles/'
       path: '/edit-roles'
       fullPath: '/edit-roles'
-      preLoaderRoute: typeof adminEditRolesIndexImport
+      preLoaderRoute: typeof protectedadminEditRolesIndexImport
       parentRoute: typeof rootRoute
     }
-    '/(admin)/users/': {
-      id: '/(admin)/users/'
+    '/(protected)/(admin)/users/': {
+      id: '/(protected)/(admin)/users/'
       path: '/users'
       fullPath: '/users'
-      preLoaderRoute: typeof adminUsersIndexImport
+      preLoaderRoute: typeof protectedadminUsersIndexImport
       parentRoute: typeof rootRoute
     }
-    '/(admin)/users/expaned-view/$userId': {
-      id: '/(admin)/users/expaned-view/$userId'
+    '/(protected)/(admin)/users/expaned-view/$userId': {
+      id: '/(protected)/(admin)/users/expaned-view/$userId'
       path: '/users/expaned-view/$userId'
       fullPath: '/users/expaned-view/$userId'
-      preLoaderRoute: typeof adminUsersExpanedViewUserIdImport
+      preLoaderRoute: typeof protectedadminUsersExpanedViewUserIdImport
       parentRoute: typeof rootRoute
     }
   }
@@ -116,29 +117,29 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/login': typeof LoginIndexRoute
-  '/transaction': typeof TransactionIndexRoute
-  '/edit-roles': typeof adminEditRolesIndexRoute
-  '/users': typeof adminUsersIndexRoute
-  '/users/expaned-view/$userId': typeof adminUsersExpanedViewUserIdRoute
+  '/transaction': typeof protectedTransactionIndexRoute
+  '/edit-roles': typeof protectedadminEditRolesIndexRoute
+  '/users': typeof protectedadminUsersIndexRoute
+  '/users/expaned-view/$userId': typeof protectedadminUsersExpanedViewUserIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/login': typeof LoginIndexRoute
-  '/transaction': typeof TransactionIndexRoute
-  '/edit-roles': typeof adminEditRolesIndexRoute
-  '/users': typeof adminUsersIndexRoute
-  '/users/expaned-view/$userId': typeof adminUsersExpanedViewUserIdRoute
+  '/transaction': typeof protectedTransactionIndexRoute
+  '/edit-roles': typeof protectedadminEditRolesIndexRoute
+  '/users': typeof protectedadminUsersIndexRoute
+  '/users/expaned-view/$userId': typeof protectedadminUsersExpanedViewUserIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/login/': typeof LoginIndexRoute
-  '/transaction/': typeof TransactionIndexRoute
-  '/(admin)/edit-roles/': typeof adminEditRolesIndexRoute
-  '/(admin)/users/': typeof adminUsersIndexRoute
-  '/(admin)/users/expaned-view/$userId': typeof adminUsersExpanedViewUserIdRoute
+  '/(protected)/transaction/': typeof protectedTransactionIndexRoute
+  '/(protected)/(admin)/edit-roles/': typeof protectedadminEditRolesIndexRoute
+  '/(protected)/(admin)/users/': typeof protectedadminUsersIndexRoute
+  '/(protected)/(admin)/users/expaned-view/$userId': typeof protectedadminUsersExpanedViewUserIdRoute
 }
 
 export interface FileRouteTypes {
@@ -162,29 +163,30 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/login/'
-    | '/transaction/'
-    | '/(admin)/edit-roles/'
-    | '/(admin)/users/'
-    | '/(admin)/users/expaned-view/$userId'
+    | '/(protected)/transaction/'
+    | '/(protected)/(admin)/edit-roles/'
+    | '/(protected)/(admin)/users/'
+    | '/(protected)/(admin)/users/expaned-view/$userId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   LoginIndexRoute: typeof LoginIndexRoute
-  TransactionIndexRoute: typeof TransactionIndexRoute
-  adminEditRolesIndexRoute: typeof adminEditRolesIndexRoute
-  adminUsersIndexRoute: typeof adminUsersIndexRoute
-  adminUsersExpanedViewUserIdRoute: typeof adminUsersExpanedViewUserIdRoute
+  protectedTransactionIndexRoute: typeof protectedTransactionIndexRoute
+  protectedadminEditRolesIndexRoute: typeof protectedadminEditRolesIndexRoute
+  protectedadminUsersIndexRoute: typeof protectedadminUsersIndexRoute
+  protectedadminUsersExpanedViewUserIdRoute: typeof protectedadminUsersExpanedViewUserIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   LoginIndexRoute: LoginIndexRoute,
-  TransactionIndexRoute: TransactionIndexRoute,
-  adminEditRolesIndexRoute: adminEditRolesIndexRoute,
-  adminUsersIndexRoute: adminUsersIndexRoute,
-  adminUsersExpanedViewUserIdRoute: adminUsersExpanedViewUserIdRoute,
+  protectedTransactionIndexRoute: protectedTransactionIndexRoute,
+  protectedadminEditRolesIndexRoute: protectedadminEditRolesIndexRoute,
+  protectedadminUsersIndexRoute: protectedadminUsersIndexRoute,
+  protectedadminUsersExpanedViewUserIdRoute:
+    protectedadminUsersExpanedViewUserIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -199,10 +201,10 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/login/",
-        "/transaction/",
-        "/(admin)/edit-roles/",
-        "/(admin)/users/",
-        "/(admin)/users/expaned-view/$userId"
+        "/(protected)/transaction/",
+        "/(protected)/(admin)/edit-roles/",
+        "/(protected)/(admin)/users/",
+        "/(protected)/(admin)/users/expaned-view/$userId"
       ]
     },
     "/": {
@@ -211,17 +213,17 @@ export const routeTree = rootRoute
     "/login/": {
       "filePath": "login/index.tsx"
     },
-    "/transaction/": {
-      "filePath": "transaction/index.tsx"
+    "/(protected)/transaction/": {
+      "filePath": "(protected)/transaction/index.tsx"
     },
-    "/(admin)/edit-roles/": {
-      "filePath": "(admin)/edit-roles/index.tsx"
+    "/(protected)/(admin)/edit-roles/": {
+      "filePath": "(protected)/(admin)/edit-roles/index.tsx"
     },
-    "/(admin)/users/": {
-      "filePath": "(admin)/users/index.tsx"
+    "/(protected)/(admin)/users/": {
+      "filePath": "(protected)/(admin)/users/index.tsx"
     },
-    "/(admin)/users/expaned-view/$userId": {
-      "filePath": "(admin)/users/expaned-view.$userId.tsx"
+    "/(protected)/(admin)/users/expaned-view/$userId": {
+      "filePath": "(protected)/(admin)/users/expaned-view.$userId.tsx"
     }
   }
 }

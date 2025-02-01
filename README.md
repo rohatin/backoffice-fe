@@ -1,6 +1,8 @@
 # Setup
 
-Mainly forked from external source since setting everything up from scratch was painful enough for the backend
+Mainly forked from external source since setting everything up from scratch was painful enough for the backend.
+I really think this project would be suited by next way better than just react but I wanted to follow the given guideline.
+Where I think nextjs would really shine and outperform react is at auth handling when paired with auth.js and specific for my implementation at the different environment diferentiated by an API key.  
 
 <div style={{display: "flex"; column-gap: "1rem", justify-content: "center", margin-top: "1rem"}}>
   <img width="500" alt="image" src="https://github.com/FelixFern/React-Starter-Project/assets/28957554/ffc1a46a-cbcd-4083-81a1-a69ced8758d9">

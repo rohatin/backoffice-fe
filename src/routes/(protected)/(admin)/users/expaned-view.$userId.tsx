@@ -4,19 +4,21 @@ import { TransactionSubType } from 'backoffice-api-sdk/structures/transaction-su
 import { TransactionType } from 'backoffice-api-sdk/structures/transaction-type.enum'
 import { TransactionDTO } from 'backoffice-api-sdk/structures/TransactionDTO'
 import { UserDTO } from 'backoffice-api-sdk/structures/UserDTO'
-import ExpandedUserView from '../../../components/custom/(admin)/user/ExpandedUserView'
+import ExpandedUserView from '../../../../components/custom/(admin)/user/ExpandedUserView'
 
-export const Route = createFileRoute('/(admin)/users/expaned-view/$userId')({
+export const Route = createFileRoute(
+  '/(protected)/(admin)/users/expaned-view/$userId',
+)({
   component: UserExpandedView,
 })
 
 // Mock user data
 const mockUser: UserDTO = {
   id: 1,
-  email: "john.doe@example.com",
-  createdAt: "2023-01-01T00:00:00Z",
-  updatedAt: "2023-06-01T00:00:00Z",
-  roles: []
+  email: 'john.doe@example.com',
+  createdAt: '2023-01-01T00:00:00Z',
+  updatedAt: '2023-06-01T00:00:00Z',
+  roles: [],
 }
 
 // Mock transaction data
@@ -28,8 +30,8 @@ const mockTransactions: TransactionDTO[] = [
     amount: 100,
     status: TransactionStatus.success,
     userId: 1,
-    createdAt: "2023-05-01T10:00:00Z",
-    updatedAt: "2023-05-01T10:00:00Z",
+    createdAt: '2023-05-01T10:00:00Z',
+    updatedAt: '2023-05-01T10:00:00Z',
   },
   {
     id: 2,
@@ -38,8 +40,8 @@ const mockTransactions: TransactionDTO[] = [
     amount: 50,
     status: TransactionStatus.success,
     userId: 1,
-    createdAt: "2023-05-15T14:30:00Z",
-    updatedAt: "2023-05-15T14:30:00Z",
+    createdAt: '2023-05-15T14:30:00Z',
+    updatedAt: '2023-05-15T14:30:00Z',
   },
   {
     id: 3,
@@ -48,8 +50,8 @@ const mockTransactions: TransactionDTO[] = [
     amount: 25,
     status: TransactionStatus.success,
     userId: 1,
-    createdAt: "2023-06-01T09:15:00Z",
-    updatedAt: "2023-06-01T09:15:00Z",
+    createdAt: '2023-06-01T09:15:00Z',
+    updatedAt: '2023-06-01T09:15:00Z',
   },
   {
     id: 4,
@@ -58,8 +60,8 @@ const mockTransactions: TransactionDTO[] = [
     amount: 10,
     status: TransactionStatus.success,
     userId: 1,
-    createdAt: "2023-06-15T11:45:00Z",
-    updatedAt: "2023-06-15T11:45:00Z",
+    createdAt: '2023-06-15T11:45:00Z',
+    updatedAt: '2023-06-15T11:45:00Z',
   },
   {
     id: 5,
@@ -68,8 +70,8 @@ const mockTransactions: TransactionDTO[] = [
     amount: 75,
     status: TransactionStatus.success,
     userId: 1,
-    createdAt: "2023-07-01T08:00:00Z",
-    updatedAt: "2023-07-01T08:00:00Z",
+    createdAt: '2023-07-01T08:00:00Z',
+    updatedAt: '2023-07-01T08:00:00Z',
   },
 ]
 
