@@ -6,7 +6,7 @@ import { AppSidebar } from "./sidebar/AppSidebar"
 
 export const ProtectedLayout = () => {
   const { data: session } = useSession() ?? {}
-  const user = session?.user
+  const user = session?.userData
   if (!user) return null
 
   return (

@@ -26,17 +26,15 @@ app.use("*", initAuthConfig(c => ({
           })
 
 
+          
           if (response.success && response.data.status) {
             return {
-              id: response.data.data.user.id, //this id raises the cast error even if the value has been overridden
-              email: response.data.data.user.email,
-              accessToken: response.data.data.token,
-              roles: response.data.data.user.roles,
-              createdAt: response.data.data.user.createdAt,
-              updatedAt: response.data.data.user.updatedAt,
-              refreshToken: response.data.data.refreshToken,
-            // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-            } as any
+              ...response.data.data.user, 
+              ...response.data.data,
+              id: response.data.data.user.id.toString(),
+              expiresAt: response.data.data.tokenExpires,
+              accessToken: response.data.data.token
+            }
           }
           
           return null
@@ -51,14 +49,18 @@ app.use("*", initAuthConfig(c => ({
     async jwt({ token, user }) {
       if (user) {
         token.accessToken = user.accessToken
-        token.roles = user.roles
+        token.refreshToken = user.refreshToken
+        token.expiresAt = user.expiresAt
+        token.userData = {...user, id: Number(user.id), email: user.email!}
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.roles = token.roles
+        session.userData = token.userData
         session.accessToken = token.accessToken
+        session.refreshToken = token.refreshToken
+        session.expiresAt = token.expiresAt
       }
       return session
     }

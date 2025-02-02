@@ -1,6 +1,4 @@
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
-import { LogOut } from "lucide-react"
 import { AccesiblePaths } from "./AccesiblePaths"
 import { UserDTO } from "backoffice-api-sdk/structures/UserDTO"
 import { UserProfile } from "./UserProfile"

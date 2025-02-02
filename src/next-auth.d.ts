@@ -1,31 +1,32 @@
-import { User } from "@auth/core/types"
+import { User as AuthUser } from "@auth/core/types"
 import { AuthSessionDTO } from "backoffice-api-sdk/structures/AuthSessionDTO"
 import { RoleDTO } from "backoffice-api-sdk/structures/RoleDTO"
 import { UserDTO } from "backoffice-api-sdk/structures/UserDTO"
 
 declare module "@auth/core/types" {
-  interface User extends AuthUser, Omit<AuthSessionDTO, 'user'> {
+  interface User extends Omit<AuthUser, 'id' | 'email'>, Omit<AuthSessionDTO, 'user'> {
     id: number
     email: string
-    accessToken?: string
+    accessToken: string
     refreshToken?: string
     roles: Array<RoleDTO>
+    expiresAt: number
     createdAt: string
     updatedAt: string
   }
-}
-// Type augmentation for session
-declare module "@auth/core/types" {
   interface Session {
-    accessToken?: string
-    user: User
+    accessToken: string
+    refreshToken?: string
+    expiresAt: number
+    userData: UserDTO
   }
 }
 
-// Type augmentation for JWT
 declare module "@auth/core/jwt" {
   interface JWT {
-    accessToken?: string
-    roles: Array<RoleDTO>
+    accessToken: string
+    refreshToken?: string
+    expiresAt: number
+    userData: UserDTO
   }
 }

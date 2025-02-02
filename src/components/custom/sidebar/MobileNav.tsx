@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
@@ -7,7 +7,7 @@ import { AccesiblePaths } from "./AccesiblePaths"
 import { UserProfile } from "./UserProfile"
 import { LogoutButton } from "./LogoutButton"
 
-export function MobileNav({ user }: { user: UserDTO }) {
+export const MobileNav: React.FC<{ user: UserDTO }> = ({ user }) => {
   const [open, setOpen] = useState(false)
 
   return (

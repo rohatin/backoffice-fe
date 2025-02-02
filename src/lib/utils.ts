@@ -1,7 +1,7 @@
 import { UserDTO } from 'backoffice-api-sdk/structures/UserDTO';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { routeDisplayData, routeRequiredPermissions, RouteIds } from './routes.config';
+import { routeRequiredPermissions, RouteIds } from './routes.config';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
