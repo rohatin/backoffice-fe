@@ -14,24 +14,23 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginIndexImport } from './routes/login/index'
-import { Route as protectedTransactionIndexImport } from './routes/(protected)/transaction/index'
-import { Route as protectedadminUsersIndexImport } from './routes/(protected)/(admin)/users/index'
-import { Route as protectedadminEditRolesIndexImport } from './routes/(protected)/(admin)/edit-roles/index'
-import { Route as protectedadminUsersExpanedViewUserIdImport } from './routes/(protected)/(admin)/users/expaned-view.$userId'
+import { Route as protectedLayoutImport } from './routes/(protected)/_layout'
+import { Route as protectedLayoutIndexImport } from './routes/(protected)/_layout/index'
+import { Route as protectedLayoutTransactionIndexImport } from './routes/(protected)/_layout/transaction/index'
+import { Route as protectedLayoutadminUsersIndexImport } from './routes/(protected)/_layout/(admin)/users/index'
+import { Route as protectedLayoutadminEditRolesIndexImport } from './routes/(protected)/_layout/(admin)/edit-roles/index'
+import { Route as protectedLayoutadminUsersExpanedViewUserIdImport } from './routes/(protected)/_layout/(admin)/users/expaned-view.$userId'
 
 // Create Virtual Routes
 
-const protectedIndexLazyImport = createFileRoute('/(protected)/')()
+const protectedImport = createFileRoute('/(protected)')()
 
 // Create/Update Routes
 
-const protectedIndexLazyRoute = protectedIndexLazyImport
-  .update({
-    id: '/(protected)/',
-    path: '/',
-    getParentRoute: () => rootRoute,
-  } as any)
-  .lazy(() => import('./routes/(protected)/index.lazy').then((d) => d.Route))
+const protectedRoute = protectedImport.update({
+  id: '/(protected)',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LoginIndexRoute = LoginIndexImport.update({
   id: '/login/',
@@ -39,36 +38,63 @@ const LoginIndexRoute = LoginIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const protectedTransactionIndexRoute = protectedTransactionIndexImport.update({
-  id: '/(protected)/transaction/',
-  path: '/transaction/',
-  getParentRoute: () => rootRoute,
+const protectedLayoutRoute = protectedLayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => protectedRoute,
 } as any)
 
-const protectedadminUsersIndexRoute = protectedadminUsersIndexImport.update({
-  id: '/(protected)/(admin)/users/',
-  path: '/users/',
-  getParentRoute: () => rootRoute,
+const protectedLayoutIndexRoute = protectedLayoutIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => protectedLayoutRoute,
 } as any)
 
-const protectedadminEditRolesIndexRoute =
-  protectedadminEditRolesIndexImport.update({
-    id: '/(protected)/(admin)/edit-roles/',
-    path: '/edit-roles/',
-    getParentRoute: () => rootRoute,
+const protectedLayoutTransactionIndexRoute =
+  protectedLayoutTransactionIndexImport.update({
+    id: '/transaction/',
+    path: '/transaction/',
+    getParentRoute: () => protectedLayoutRoute,
   } as any)
 
-const protectedadminUsersExpanedViewUserIdRoute =
-  protectedadminUsersExpanedViewUserIdImport.update({
-    id: '/(protected)/(admin)/users/expaned-view/$userId',
+const protectedLayoutadminUsersIndexRoute =
+  protectedLayoutadminUsersIndexImport.update({
+    id: '/(admin)/users/',
+    path: '/users/',
+    getParentRoute: () => protectedLayoutRoute,
+  } as any)
+
+const protectedLayoutadminEditRolesIndexRoute =
+  protectedLayoutadminEditRolesIndexImport.update({
+    id: '/(admin)/edit-roles/',
+    path: '/edit-roles/',
+    getParentRoute: () => protectedLayoutRoute,
+  } as any)
+
+const protectedLayoutadminUsersExpanedViewUserIdRoute =
+  protectedLayoutadminUsersExpanedViewUserIdImport.update({
+    id: '/(admin)/users/expaned-view/$userId',
     path: '/users/expaned-view/$userId',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => protectedLayoutRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/(protected)': {
+      id: '/(protected)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof protectedImport
+      parentRoute: typeof rootRoute
+    }
+    '/(protected)/_layout': {
+      id: '/(protected)/_layout'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof protectedLayoutImport
+      parentRoute: typeof protectedRoute
+    }
     '/login/': {
       id: '/login/'
       path: '/login'
@@ -76,79 +102,115 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexImport
       parentRoute: typeof rootRoute
     }
-    '/(protected)/': {
-      id: '/(protected)/'
+    '/(protected)/_layout/': {
+      id: '/(protected)/_layout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof protectedIndexLazyImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof protectedLayoutIndexImport
+      parentRoute: typeof protectedLayoutImport
     }
-    '/(protected)/transaction/': {
-      id: '/(protected)/transaction/'
+    '/(protected)/_layout/transaction/': {
+      id: '/(protected)/_layout/transaction/'
       path: '/transaction'
       fullPath: '/transaction'
-      preLoaderRoute: typeof protectedTransactionIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof protectedLayoutTransactionIndexImport
+      parentRoute: typeof protectedLayoutImport
     }
-    '/(protected)/(admin)/edit-roles/': {
-      id: '/(protected)/(admin)/edit-roles/'
+    '/(protected)/_layout/(admin)/edit-roles/': {
+      id: '/(protected)/_layout/(admin)/edit-roles/'
       path: '/edit-roles'
       fullPath: '/edit-roles'
-      preLoaderRoute: typeof protectedadminEditRolesIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof protectedLayoutadminEditRolesIndexImport
+      parentRoute: typeof protectedLayoutImport
     }
-    '/(protected)/(admin)/users/': {
-      id: '/(protected)/(admin)/users/'
+    '/(protected)/_layout/(admin)/users/': {
+      id: '/(protected)/_layout/(admin)/users/'
       path: '/users'
       fullPath: '/users'
-      preLoaderRoute: typeof protectedadminUsersIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof protectedLayoutadminUsersIndexImport
+      parentRoute: typeof protectedLayoutImport
     }
-    '/(protected)/(admin)/users/expaned-view/$userId': {
-      id: '/(protected)/(admin)/users/expaned-view/$userId'
+    '/(protected)/_layout/(admin)/users/expaned-view/$userId': {
+      id: '/(protected)/_layout/(admin)/users/expaned-view/$userId'
       path: '/users/expaned-view/$userId'
       fullPath: '/users/expaned-view/$userId'
-      preLoaderRoute: typeof protectedadminUsersExpanedViewUserIdImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof protectedLayoutadminUsersExpanedViewUserIdImport
+      parentRoute: typeof protectedLayoutImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface protectedLayoutRouteChildren {
+  protectedLayoutIndexRoute: typeof protectedLayoutIndexRoute
+  protectedLayoutTransactionIndexRoute: typeof protectedLayoutTransactionIndexRoute
+  protectedLayoutadminEditRolesIndexRoute: typeof protectedLayoutadminEditRolesIndexRoute
+  protectedLayoutadminUsersIndexRoute: typeof protectedLayoutadminUsersIndexRoute
+  protectedLayoutadminUsersExpanedViewUserIdRoute: typeof protectedLayoutadminUsersExpanedViewUserIdRoute
+}
+
+const protectedLayoutRouteChildren: protectedLayoutRouteChildren = {
+  protectedLayoutIndexRoute: protectedLayoutIndexRoute,
+  protectedLayoutTransactionIndexRoute: protectedLayoutTransactionIndexRoute,
+  protectedLayoutadminEditRolesIndexRoute:
+    protectedLayoutadminEditRolesIndexRoute,
+  protectedLayoutadminUsersIndexRoute: protectedLayoutadminUsersIndexRoute,
+  protectedLayoutadminUsersExpanedViewUserIdRoute:
+    protectedLayoutadminUsersExpanedViewUserIdRoute,
+}
+
+const protectedLayoutRouteWithChildren = protectedLayoutRoute._addFileChildren(
+  protectedLayoutRouteChildren,
+)
+
+interface protectedRouteChildren {
+  protectedLayoutRoute: typeof protectedLayoutRouteWithChildren
+}
+
+const protectedRouteChildren: protectedRouteChildren = {
+  protectedLayoutRoute: protectedLayoutRouteWithChildren,
+}
+
+const protectedRouteWithChildren = protectedRoute._addFileChildren(
+  protectedRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
+  '/': typeof protectedLayoutIndexRoute
   '/login': typeof LoginIndexRoute
-  '/': typeof protectedIndexLazyRoute
-  '/transaction': typeof protectedTransactionIndexRoute
-  '/edit-roles': typeof protectedadminEditRolesIndexRoute
-  '/users': typeof protectedadminUsersIndexRoute
-  '/users/expaned-view/$userId': typeof protectedadminUsersExpanedViewUserIdRoute
+  '/transaction': typeof protectedLayoutTransactionIndexRoute
+  '/edit-roles': typeof protectedLayoutadminEditRolesIndexRoute
+  '/users': typeof protectedLayoutadminUsersIndexRoute
+  '/users/expaned-view/$userId': typeof protectedLayoutadminUsersExpanedViewUserIdRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginIndexRoute
-  '/': typeof protectedIndexLazyRoute
-  '/transaction': typeof protectedTransactionIndexRoute
-  '/edit-roles': typeof protectedadminEditRolesIndexRoute
-  '/users': typeof protectedadminUsersIndexRoute
-  '/users/expaned-view/$userId': typeof protectedadminUsersExpanedViewUserIdRoute
+  '/': typeof protectedLayoutIndexRoute
+  '/transaction': typeof protectedLayoutTransactionIndexRoute
+  '/edit-roles': typeof protectedLayoutadminEditRolesIndexRoute
+  '/users': typeof protectedLayoutadminUsersIndexRoute
+  '/users/expaned-view/$userId': typeof protectedLayoutadminUsersExpanedViewUserIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/(protected)': typeof protectedRouteWithChildren
+  '/(protected)/_layout': typeof protectedLayoutRouteWithChildren
   '/login/': typeof LoginIndexRoute
-  '/(protected)/': typeof protectedIndexLazyRoute
-  '/(protected)/transaction/': typeof protectedTransactionIndexRoute
-  '/(protected)/(admin)/edit-roles/': typeof protectedadminEditRolesIndexRoute
-  '/(protected)/(admin)/users/': typeof protectedadminUsersIndexRoute
-  '/(protected)/(admin)/users/expaned-view/$userId': typeof protectedadminUsersExpanedViewUserIdRoute
+  '/(protected)/_layout/': typeof protectedLayoutIndexRoute
+  '/(protected)/_layout/transaction/': typeof protectedLayoutTransactionIndexRoute
+  '/(protected)/_layout/(admin)/edit-roles/': typeof protectedLayoutadminEditRolesIndexRoute
+  '/(protected)/_layout/(admin)/users/': typeof protectedLayoutadminUsersIndexRoute
+  '/(protected)/_layout/(admin)/users/expaned-view/$userId': typeof protectedLayoutadminUsersExpanedViewUserIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/login'
     | '/'
+    | '/login'
     | '/transaction'
     | '/edit-roles'
     | '/users'
@@ -163,32 +225,25 @@ export interface FileRouteTypes {
     | '/users/expaned-view/$userId'
   id:
     | '__root__'
+    | '/(protected)'
+    | '/(protected)/_layout'
     | '/login/'
-    | '/(protected)/'
-    | '/(protected)/transaction/'
-    | '/(protected)/(admin)/edit-roles/'
-    | '/(protected)/(admin)/users/'
-    | '/(protected)/(admin)/users/expaned-view/$userId'
+    | '/(protected)/_layout/'
+    | '/(protected)/_layout/transaction/'
+    | '/(protected)/_layout/(admin)/edit-roles/'
+    | '/(protected)/_layout/(admin)/users/'
+    | '/(protected)/_layout/(admin)/users/expaned-view/$userId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
+  protectedRoute: typeof protectedRouteWithChildren
   LoginIndexRoute: typeof LoginIndexRoute
-  protectedIndexLazyRoute: typeof protectedIndexLazyRoute
-  protectedTransactionIndexRoute: typeof protectedTransactionIndexRoute
-  protectedadminEditRolesIndexRoute: typeof protectedadminEditRolesIndexRoute
-  protectedadminUsersIndexRoute: typeof protectedadminUsersIndexRoute
-  protectedadminUsersExpanedViewUserIdRoute: typeof protectedadminUsersExpanedViewUserIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  protectedRoute: protectedRouteWithChildren,
   LoginIndexRoute: LoginIndexRoute,
-  protectedIndexLazyRoute: protectedIndexLazyRoute,
-  protectedTransactionIndexRoute: protectedTransactionIndexRoute,
-  protectedadminEditRolesIndexRoute: protectedadminEditRolesIndexRoute,
-  protectedadminUsersIndexRoute: protectedadminUsersIndexRoute,
-  protectedadminUsersExpanedViewUserIdRoute:
-    protectedadminUsersExpanedViewUserIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -201,31 +256,49 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/login/",
-        "/(protected)/",
-        "/(protected)/transaction/",
-        "/(protected)/(admin)/edit-roles/",
-        "/(protected)/(admin)/users/",
-        "/(protected)/(admin)/users/expaned-view/$userId"
+        "/(protected)",
+        "/login/"
+      ]
+    },
+    "/(protected)": {
+      "filePath": "(protected)",
+      "children": [
+        "/(protected)/_layout"
+      ]
+    },
+    "/(protected)/_layout": {
+      "filePath": "(protected)/_layout.tsx",
+      "parent": "/(protected)",
+      "children": [
+        "/(protected)/_layout/",
+        "/(protected)/_layout/transaction/",
+        "/(protected)/_layout/(admin)/edit-roles/",
+        "/(protected)/_layout/(admin)/users/",
+        "/(protected)/_layout/(admin)/users/expaned-view/$userId"
       ]
     },
     "/login/": {
       "filePath": "login/index.tsx"
     },
-    "/(protected)/": {
-      "filePath": "(protected)/index.lazy.tsx"
+    "/(protected)/_layout/": {
+      "filePath": "(protected)/_layout/index.tsx",
+      "parent": "/(protected)/_layout"
     },
-    "/(protected)/transaction/": {
-      "filePath": "(protected)/transaction/index.tsx"
+    "/(protected)/_layout/transaction/": {
+      "filePath": "(protected)/_layout/transaction/index.tsx",
+      "parent": "/(protected)/_layout"
     },
-    "/(protected)/(admin)/edit-roles/": {
-      "filePath": "(protected)/(admin)/edit-roles/index.tsx"
+    "/(protected)/_layout/(admin)/edit-roles/": {
+      "filePath": "(protected)/_layout/(admin)/edit-roles/index.tsx",
+      "parent": "/(protected)/_layout"
     },
-    "/(protected)/(admin)/users/": {
-      "filePath": "(protected)/(admin)/users/index.tsx"
+    "/(protected)/_layout/(admin)/users/": {
+      "filePath": "(protected)/_layout/(admin)/users/index.tsx",
+      "parent": "/(protected)/_layout"
     },
-    "/(protected)/(admin)/users/expaned-view/$userId": {
-      "filePath": "(protected)/(admin)/users/expaned-view.$userId.tsx"
+    "/(protected)/_layout/(admin)/users/expaned-view/$userId": {
+      "filePath": "(protected)/_layout/(admin)/users/expaned-view.$userId.tsx",
+      "parent": "/(protected)/_layout"
     }
   }
 }

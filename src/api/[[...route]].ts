@@ -18,23 +18,25 @@ app.use("*", initAuthConfig(c => ({
         generateRefreshToken: { label: "Keep me signed in", type: "checkbox" }
       },
       async authorize(credentials) {
-        console.log("🚀 ~ authorize ~ credentials:", {credentials, url: baseConnection.host, headers: baseConnection.headers})
         try {
           const response = await api.functional.auth.login(baseConnection, {
             email: credentials?.email as string,
             password: credentials?.password as string,
             generateRefreshToken: Boolean(credentials?.generateRefreshToken)
           })
-          console.log("🚀 ~ authorize ~ response:", response)
 
 
           if (response.success && response.data.status) {
             return {
-              id: response.data.data.user.id.toString(),
+              id: response.data.data.user.id, //this id raises the cast error even if the value has been overridden
               email: response.data.data.user.email,
               accessToken: response.data.data.token,
               roles: response.data.data.user.roles,
-            }
+              createdAt: response.data.data.user.createdAt,
+              updatedAt: response.data.data.user.updatedAt,
+              refreshToken: response.data.data.refreshToken,
+            // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+            } as any
           }
           
           return null

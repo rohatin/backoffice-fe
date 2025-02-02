@@ -33,6 +33,6 @@ const Dashboard = () => {
   )
 }
 
-export const Route = createFileRoute('/(protected)/transaction/')({
+export const Route = createFileRoute('/(protected)/_layout/transaction/')({
   component: Dashboard,
 })

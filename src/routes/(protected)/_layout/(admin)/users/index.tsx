@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { UserTable } from '@/components/custom/(admin)/user/UserTable'
 import { NewUserButton } from '@/components/custom/(admin)/user/NewUserButton'
 
-export const Route = createFileRoute('/(protected)/(admin)/users/')({
+export const Route = createFileRoute('/(protected)/_layout/(admin)/users/')({
   component: UsersPage,
 })
 

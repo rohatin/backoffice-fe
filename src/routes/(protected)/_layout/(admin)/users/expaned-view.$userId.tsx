@@ -4,10 +4,10 @@ import { TransactionSubType } from 'backoffice-api-sdk/structures/transaction-su
 import { TransactionType } from 'backoffice-api-sdk/structures/transaction-type.enum'
 import { TransactionDTO } from 'backoffice-api-sdk/structures/TransactionDTO'
 import { UserDTO } from 'backoffice-api-sdk/structures/UserDTO'
-import ExpandedUserView from '../../../../components/custom/(admin)/user/ExpandedUserView'
+import ExpandedUserView from '../../../../../components/custom/(admin)/user/ExpandedUserView'
 
 export const Route = createFileRoute(
-  '/(protected)/(admin)/users/expaned-view/$userId',
+  '/(protected)/_layout/(admin)/users/expaned-view/$userId',
 )({
   component: UserExpandedView,
 })

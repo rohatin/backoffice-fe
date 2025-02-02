@@ -8,7 +8,9 @@ import CreateRoleForm from '@/components/custom/(admin)/roles/CreateRoleForm'
 import EditRolePermissions from '@/components/custom/(admin)/roles/EditRole'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/(protected)/(admin)/edit-roles/')({
+export const Route = createFileRoute(
+  '/(protected)/_layout/(admin)/edit-roles/',
+)({
   component: RolesPage,
 })
 

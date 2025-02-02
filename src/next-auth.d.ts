@@ -1,13 +1,16 @@
 import { User } from "@auth/core/types"
 import { RoleDTO } from "backoffice-api-sdk/structures/RoleDTO"
+import { UserDTO } from "backoffice-api-sdk/structures/UserDTO"
 
 declare module "@auth/core/types" {
-  interface User {
-    id: string
+  interface User extends Omit<AuthUser, 'id'> {
+    id: number
     email: string
     accessToken?: string
     refreshToken?: string
     roles: Array<RoleDTO>
+    createdAt: string
+    updatedAt: string
   }
 }
 
@@ -15,9 +18,7 @@ declare module "@auth/core/types" {
 declare module "@auth/core/types" {
   interface Session {
     accessToken?: string
-    user: {
-      roles: Array<RoleDTO>
-    } & DefaultSession["user"]
+    user: UserDTO
   }
 }
 

@@ -1,5 +1,7 @@
+import { UserDTO } from 'backoffice-api-sdk/structures/UserDTO';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { routeDisplayData, routeRequiredPermissions, RouteIds } from './routes.config';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -51,3 +53,12 @@ export const mapTypeColor = (type: string) => {
 			return 'bg-cyan-400';
 	}
 };
+export const hasPermission = (user: UserDTO, requiredPermission: typeof routeRequiredPermissions[RouteIds] ) => {
+  if (!requiredPermission) return true
+  return user.roles.some(role => 
+    role.permissions.some(permission => 
+      permission.resource === requiredPermission.resource && 
+      permission.action === requiredPermission.action
+    )
+  )
+}
