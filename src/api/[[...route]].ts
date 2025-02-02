@@ -1,9 +1,14 @@
-import { AuthConfig } from "@auth/core/types"
-import Credentials from "@auth/core/providers/credentials"
+import { Hono } from "hono"
+import { authHandler, initAuthConfig, verifyAuth } from "@hono/auth-js"
 import api from 'backoffice-api-sdk'
-import { baseConnection } from "./lib/constant"
+import Credentials from "@auth/core/providers/credentials"
+import { baseConnection } from "../lib/constant"
 
-export const authConfig: AuthConfig = {
+const app = new Hono({ strict: false }).basePath('/')
+
+
+app.use("*", initAuthConfig(c => ({
+  secret: c.env.AUTH_SECRET,
   providers: [
     Credentials({
       name: "Credentials",
@@ -13,12 +18,15 @@ export const authConfig: AuthConfig = {
         generateRefreshToken: { label: "Keep me signed in", type: "checkbox" }
       },
       async authorize(credentials) {
+        console.log("🚀 ~ authorize ~ credentials:", {credentials, url: baseConnection.host, headers: baseConnection.headers})
         try {
           const response = await api.functional.auth.login(baseConnection, {
             email: credentials?.email as string,
             password: credentials?.password as string,
             generateRefreshToken: Boolean(credentials?.generateRefreshToken)
           })
+          console.log("🚀 ~ authorize ~ response:", response)
+
 
           if (response.success && response.data.status) {
             return {
@@ -60,5 +68,16 @@ export const authConfig: AuthConfig = {
   session: {
     strategy: "jwt"
   }
-}
+})))
 
+app.use("/api/auth/*", authHandler())
+
+app.use("/api/*", verifyAuth())
+
+app.get("/api/protected", async (c)=> {
+    const auth = c.get("authUser")
+    return c.json(auth)
+})
+
+
+export default app

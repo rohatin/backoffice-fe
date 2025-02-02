@@ -1,8 +1,23 @@
 import LoginForm from "@/components/custom/LoginForm"
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { DollarSign, Crown, Diamond } from "lucide-react"
+import { useSession } from "@hono/auth-js/react"
+import { useEffect } from "react"
 
 const Login = () => {
+  const navigate = useNavigate()
+  const { status } = useSession() ?? { status: 'loading' }
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      navigate({ to: '/' })
+    }
+  }, [status, navigate])
+
+  if (status === 'loading') {
+    return null
+  }
+
   return (
     <div className="flex min-h-screen h-screen w-screen flex-col md:flex-row">
       <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-blue-600 to-purple-600 items-center justify-center relative overflow-hidden">
@@ -15,7 +30,7 @@ const Login = () => {
           <h1 className="text-5xl font-bold mb-6">Welcome to the Backoffice</h1>
           <p className="text-xl mb-8">Check the behavioral pattern of your users</p>
           <div className="text-sm opacity-75 max-w-md mx-auto">
-            "If you can’t spot the sucker in the first half hour at the table, then you are the sucker." <br/> - Mike McDermott 
+            "If you can't spot the sucker in the first half hour at the table, then you are the sucker." <br/> - Mike McDermott 
           </div>
         </div>
       </div>
@@ -25,7 +40,6 @@ const Login = () => {
     </div>
   )
 }
-
 
 export const Route = createFileRoute('/login/')({
   component: Login
