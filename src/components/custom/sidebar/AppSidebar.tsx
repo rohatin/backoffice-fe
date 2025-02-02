@@ -4,6 +4,8 @@ import { LogOut } from "lucide-react"
 import { AccesiblePaths } from "./AccesiblePaths"
 import { UserDTO } from "backoffice-api-sdk/structures/UserDTO"
 import { UserProfile } from "./UserProfile"
+import { LogoutButton } from "./LogoutButton"
+
 
 export function AppSidebar({ user }: { user: UserDTO }) {
   return (
@@ -16,10 +18,7 @@ export function AppSidebar({ user }: { user: UserDTO }) {
           <AccesiblePaths user={user} />
         </SidebarContent>
         <div className="p-4 border-t">
-          <Button variant="ghost" className="w-full justify-start" onClick={() => console.log("Sign out")}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign out
-          </Button>
+          <LogoutButton variant="ghost" className="w-full justify-start" />
         </div>
       </div>
     </Sidebar>

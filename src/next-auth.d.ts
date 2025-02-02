@@ -1,9 +1,10 @@
 import { User } from "@auth/core/types"
+import { AuthSessionDTO } from "backoffice-api-sdk/structures/AuthSessionDTO"
 import { RoleDTO } from "backoffice-api-sdk/structures/RoleDTO"
 import { UserDTO } from "backoffice-api-sdk/structures/UserDTO"
 
 declare module "@auth/core/types" {
-  interface User extends Omit<AuthUser, 'id'> {
+  interface User extends AuthUser, Omit<AuthSessionDTO, 'user'> {
     id: number
     email: string
     accessToken?: string
@@ -13,12 +14,11 @@ declare module "@auth/core/types" {
     updatedAt: string
   }
 }
-
 // Type augmentation for session
 declare module "@auth/core/types" {
   interface Session {
     accessToken?: string
-    user: UserDTO
+    user: User
   }
 }
 

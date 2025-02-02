@@ -3,7 +3,13 @@ import { IConnection } from "backoffice-api-sdk"
 import { useEffect, useState } from "react"
 import { baseConnection } from "../lib/constant"
 
-export const useConnection = () => {
+export const useConnection = (): {
+  connection: IConnection
+  isLoading: false
+} | {
+  connection: null
+  isLoading: true
+} => {
   const { data: session, status } = useSession() ?? { data: null, status: 'loading' }
   const [connection, setConnection] = useState<IConnection | null>(null)
 
@@ -22,9 +28,15 @@ export const useConnection = () => {
     }
   }, [status, session])
 
+  if(connection === null) {
+    return {
+      connection: null,
+      isLoading: true
+    }
+  }
   return {
     connection,
-    isLoading: connection === null
+    isLoading: false
   }
 
 }

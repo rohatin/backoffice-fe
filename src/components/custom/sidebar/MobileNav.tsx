@@ -2,10 +2,10 @@ import { useState } from "react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
-import { LogOut } from "lucide-react"
 import { UserDTO } from "backoffice-api-sdk/structures/UserDTO"
 import { AccesiblePaths } from "./AccesiblePaths"
 import { UserProfile } from "./UserProfile"
+import { LogoutButton } from "./LogoutButton"
 
 export function MobileNav({ user }: { user: UserDTO }) {
   const [open, setOpen] = useState(false)
@@ -27,10 +27,7 @@ export function MobileNav({ user }: { user: UserDTO }) {
             <AccesiblePaths user={user} />
           </div>
           <div className="p-4 border-t">
-            <Button variant="ghost" className="w-full justify-start" onClick={() => console.log("Sign out")}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Sign out
-            </Button>
+            <LogoutButton variant="ghost" className="w-full justify-start" />
           </div>
         </div>
       </SheetContent>

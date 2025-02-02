@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { useSession } from "@hono/auth-js/react"
+import { signOut, useSession } from "@hono/auth-js/react"
 import api from 'backoffice-api-sdk'
 import { baseConnection } from "@/lib/constant"
 
@@ -10,7 +10,16 @@ export const useTokenRefresh = () => {
   const refreshTokenTimeoutRef = useRef<NodeJS.Timeout>()
 
   const refreshToken = useCallback(async () => {
-    if (!session?.user?.refreshToken) return
+    if (!session?.user?.refreshToken) {
+      //if the user jwt is expired and he does not have an refresh token this means he must get signed out
+      if(session?.user?.tokenExpires && session.user.tokenExpires > Date.now()) {
+        await signOut({
+          redirect: true,
+          callbackUrl: '/login'
+        })
+      }
+      return
+    }
 
     if(!baseConnection.headers){
       baseConnection.headers = {}
