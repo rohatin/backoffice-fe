@@ -18,7 +18,7 @@ export const Route = createRootRoute({
 		return(
 			(
 				<>
-					<div className='container pt-12'>
+					<div className=''>
 					{isProtected ? (
 					<ProtectedRoute requiredPermission={requiredRole}>
 						<Outlet/>
