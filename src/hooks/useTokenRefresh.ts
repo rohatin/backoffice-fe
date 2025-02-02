@@ -6,7 +6,7 @@ import { baseConnection } from "@/lib/constant"
 const REFRESH_INTERVAL = 4 * 60 * 1000 // 4 minutes
 
 export const useTokenRefresh = () => {
-  const { data: session, update } = useSession()
+  const { data: session, update } = useSession() ?? { data: null, status: 'loading' }
   const refreshTokenTimeoutRef = useRef<NodeJS.Timeout>()
 
   const refreshToken = useCallback(async () => {

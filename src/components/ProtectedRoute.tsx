@@ -28,19 +28,20 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute = ({ children, requiredPermission }: ProtectedRouteProps) => {
   const navigate = useNavigate()
-  const { data: session, status } = useSession() ?? { data: null, status: 'loading' }
+  const sessionData = useSession()
+  const { data: session, status } = sessionData ?? {}
   const userPermissions = useMemo(() => (session?.user?.roles?.map(role => role.permissions.map(elm => ({ action: elm.action, resource: elm.resource }))) ?? []).flat(), [session])
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      navigate({ to: '/login' })
+      navigate({ to: '/login', reloadDocument: true })
       return
     }
 
     if(status === 'loading') return
 
     if (requiredPermission && userPermissions.includes(requiredPermission)) {
-      navigate({ to: '/' })
+      navigate({ to: '/', reloadDocument: true })
       return
     }
   }, [status, navigate, requiredPermission, userPermissions])

@@ -21,15 +21,17 @@ import { Route as protectedadminUsersExpanedViewUserIdImport } from './routes/(p
 
 // Create Virtual Routes
 
-const IndexLazyImport = createFileRoute('/')()
+const protectedIndexLazyImport = createFileRoute('/(protected)/')()
 
 // Create/Update Routes
 
-const IndexLazyRoute = IndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const protectedIndexLazyRoute = protectedIndexLazyImport
+  .update({
+    id: '/(protected)/',
+    path: '/',
+    getParentRoute: () => rootRoute,
+  } as any)
+  .lazy(() => import('./routes/(protected)/index.lazy').then((d) => d.Route))
 
 const LoginIndexRoute = LoginIndexImport.update({
   id: '/login/',
@@ -67,18 +69,18 @@ const protectedadminUsersExpanedViewUserIdRoute =
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/login/': {
       id: '/login/'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(protected)/': {
+      id: '/(protected)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof protectedIndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/(protected)/transaction/': {
@@ -115,8 +117,8 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
   '/login': typeof LoginIndexRoute
+  '/': typeof protectedIndexLazyRoute
   '/transaction': typeof protectedTransactionIndexRoute
   '/edit-roles': typeof protectedadminEditRolesIndexRoute
   '/users': typeof protectedadminUsersIndexRoute
@@ -124,8 +126,8 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
   '/login': typeof LoginIndexRoute
+  '/': typeof protectedIndexLazyRoute
   '/transaction': typeof protectedTransactionIndexRoute
   '/edit-roles': typeof protectedadminEditRolesIndexRoute
   '/users': typeof protectedadminUsersIndexRoute
@@ -134,8 +136,8 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
   '/login/': typeof LoginIndexRoute
+  '/(protected)/': typeof protectedIndexLazyRoute
   '/(protected)/transaction/': typeof protectedTransactionIndexRoute
   '/(protected)/(admin)/edit-roles/': typeof protectedadminEditRolesIndexRoute
   '/(protected)/(admin)/users/': typeof protectedadminUsersIndexRoute
@@ -145,24 +147,24 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/login'
+    | '/'
     | '/transaction'
     | '/edit-roles'
     | '/users'
     | '/users/expaned-view/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/login'
+    | '/'
     | '/transaction'
     | '/edit-roles'
     | '/users'
     | '/users/expaned-view/$userId'
   id:
     | '__root__'
-    | '/'
     | '/login/'
+    | '/(protected)/'
     | '/(protected)/transaction/'
     | '/(protected)/(admin)/edit-roles/'
     | '/(protected)/(admin)/users/'
@@ -171,8 +173,8 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
   LoginIndexRoute: typeof LoginIndexRoute
+  protectedIndexLazyRoute: typeof protectedIndexLazyRoute
   protectedTransactionIndexRoute: typeof protectedTransactionIndexRoute
   protectedadminEditRolesIndexRoute: typeof protectedadminEditRolesIndexRoute
   protectedadminUsersIndexRoute: typeof protectedadminUsersIndexRoute
@@ -180,8 +182,8 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
   LoginIndexRoute: LoginIndexRoute,
+  protectedIndexLazyRoute: protectedIndexLazyRoute,
   protectedTransactionIndexRoute: protectedTransactionIndexRoute,
   protectedadminEditRolesIndexRoute: protectedadminEditRolesIndexRoute,
   protectedadminUsersIndexRoute: protectedadminUsersIndexRoute,
@@ -199,19 +201,19 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
         "/login/",
+        "/(protected)/",
         "/(protected)/transaction/",
         "/(protected)/(admin)/edit-roles/",
         "/(protected)/(admin)/users/",
         "/(protected)/(admin)/users/expaned-view/$userId"
       ]
     },
-    "/": {
-      "filePath": "index.lazy.tsx"
-    },
     "/login/": {
       "filePath": "login/index.tsx"
+    },
+    "/(protected)/": {
+      "filePath": "(protected)/index.lazy.tsx"
     },
     "/(protected)/transaction/": {
       "filePath": "(protected)/transaction/index.tsx"
