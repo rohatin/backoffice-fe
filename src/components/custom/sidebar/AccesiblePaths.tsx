@@ -2,7 +2,7 @@ import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui
 import { cn, hasPermission } from "@/lib/utils"
 import { Link } from "@tanstack/react-router"
 import { UserDTO } from "backoffice-api-sdk/structures/UserDTO"
-import { routeDisplayData, routeRequiredPermissions, RouteIds } from "@/lib/routes.config"
+import { routeDisplayData, routeRequiredPermissions, RouteIds, RoutePathnames } from "@/lib/routes.config"
 import { LucideIcon } from "lucide-react"
 
 
@@ -18,6 +18,7 @@ export const AccesiblePaths = ({ user }: { user: UserDTO }) => {
   }) as Array<[RouteIds, {
     name: string
     icon: LucideIcon
+    routeTo: RoutePathnames
   }]>
 
   return (
@@ -26,7 +27,7 @@ export const AccesiblePaths = ({ user }: { user: UserDTO }) => {
         <SidebarMenuItem key={routeId}>
           <SidebarMenuButton asChild>
             <Link
-              to={routeId as RouteIds}
+              to={displayData.routeTo}
               className={cn(
                 "flex items-center py-2 px-4 rounded-md transition-colors",
                 "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",

@@ -1,9 +1,8 @@
 import { Outlet } from "@tanstack/react-router"
-import { Sidebar, SidebarContent, SidebarProvider } from "@/components/ui/sidebar"
-import { AccesiblePaths } from "@/components/custom/sidebar/AccesiblePaths"
-import { UserProfile } from "@/components/custom/sidebar/UserProfile"
+import { SidebarProvider } from "@/components/ui/sidebar"
 import { MobileNav } from "@/components/custom/sidebar/MobileNav"
 import { useSession } from "@hono/auth-js/react"
+import { AppSidebar } from "./sidebar/AppSidebar"
 
 export const ProtectedLayout = () => {
   const { data: session } = useSession() ?? {}
@@ -12,24 +11,14 @@ export const ProtectedLayout = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen">
-        <Sidebar>
-          <SidebarContent>
-            <div className="p-4 border-b">
-              <UserProfile user={user} />
-            </div>
-            <div className="flex-grow overflow-auto py-4">
-              <AccesiblePaths user={user} />
-            </div>
-          </SidebarContent>
-        </Sidebar>
-        <div className="flex-1">
-          <div className="md:hidden">
+      <div className="flex h-screen">
+        <AppSidebar user={user} />
+        <div className="flex flex-col flex-1">
+          <header className="h-14 md:hidden flex items-center px-4 border-b">
             <MobileNav user={user} />
-          </div>
-          <main className="p-4">
-            <Outlet />
-          </main>
+            <div className="ml-4">Backoffice</div>
+          </header>
+          <main className="flex-1 p-6 overflow-auto"><Outlet/></main>
         </div>
       </div>
     </SidebarProvider>
