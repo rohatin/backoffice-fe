@@ -2,7 +2,6 @@
 
 This project was built as part of an interview assignment to demonstrate ability to work with unfamiliar technologies and implement a functional backoffice application.
 
-
 trigger redeploy
 
 ## Tech Stack Rationale
