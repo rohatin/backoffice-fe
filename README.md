@@ -55,6 +55,7 @@ yarn install
 yarn dev
 ```
 
+
 ```typescript
 //leave it here so i do not lose, but useful for later
 Generated new client with api key { apiKey: 'c3e3c9f1-1b13-468d-a4a1-8e17a72d8746', name: 'Web Client' }
