@@ -31,8 +31,6 @@ export const useTransactions = (options: UseTransactionsOptions = {}) => {
       }
       return response.data.data
     },
-    staleTime: 0,
-    refetchOnMount: true,
-    refetchInterval: 3000
+    refetchOnMount: true
   })
 }

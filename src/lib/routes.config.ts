@@ -40,11 +40,7 @@ export const routeDisplayData: Record<RouteIds, {
   '/login/': null,
   '/(protected)/_layout': null,
   '/(protected)': null,
-  '/(protected)/_layout/': {
-    name: 'Dashboard',
-    icon: Home,
-    routeTo: '/'
-  },
+  '/(protected)/_layout/': null,
   '/(protected)/_layout/transaction/': {
     name: 'Transactions',
     icon: Sheet,

@@ -6,28 +6,53 @@ import { motion } from "framer-motion"
 import { Label } from "@/components/ui/label"
 import { CreateRoleDTO } from 'backoffice-api-sdk/structures/CreateRoleDTO'
 import { RoleDTO } from 'backoffice-api-sdk/structures/RoleDTO'
+import { useConnection } from "../../../../hooks/useConnection"
+import { useQueryClient } from "@tanstack/react-query"
+import api from "backoffice-api-sdk"
+import { toast } from "sonner"
 
 interface CreateRoleFormProps {
-  onSuccess: (newRole: RoleDTO) => void
   onCancel: () => void
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-export default function CreateRoleForm({ onSuccess, onCancel }: CreateRoleFormProps) {
+export default function CreateRoleForm({ onCancel }: CreateRoleFormProps) {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
+  const queryClient = useQueryClient()
+  const connection = useConnection()
+  const handleRoleCreated = async()  => {
+    try {
+      if(connection.isLoading){
+        return
+      }
+      const response = await api.functional.roles.create(connection.connection, {
+        name: name,
+        description: description ?? 'no descrition given',
+        permissionIds: [],
+      })
+
+      if (!response.success) {
+        throw new Error('Failed to create role')
+      }
+
+      if (!response.data.status) {
+        throw new Error(response.data.message)
+      }
+
+      toast.success('Role created successfully')
+      queryClient.invalidateQueries({ queryKey: ['roles'] })
+    } catch (error) {
+      toast.error('Failed to create role')
+      console.error('Failed to create role:', error)
+    }
+  }
+
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     try {
-      // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-      const newRole: CreateRoleDTO = {
-        name,
-        description,
-        permissionIds: [],
-      }
-      //TODO api call here
-      // onSuccess(fetchedRole)
+      handleRoleCreated()
     } catch (error) {
       console.error("Failed to create role:", error)
     }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { motion } from 'framer-motion'
@@ -9,9 +9,6 @@ import EditRolePermissions from '@/components/custom/(admin)/roles/EditRole'
 import { createFileRoute } from '@tanstack/react-router'
 import { Shield } from 'lucide-react'
 import { useRoles } from '../../../../../hooks/useRoles'
-import api from 'backoffice-api-sdk'
-import { useConnection } from '../../../../../hooks/useConnection'
-import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/(protected)/_layout/(admin)/edit-roles/')({
@@ -21,40 +18,18 @@ export const Route = createFileRoute('/(protected)/_layout/(admin)/edit-roles/')
 function RolesPage() {
   const [selectedRole, setSelectedRole] = useState<RoleDTO | null>(null)
   const [isCreating, setIsCreating] = useState(false)
-  const queryClient = useQueryClient()
-  const connection = useConnection()
   const {data: roles } = useRoles()
+  const queryClient = useQueryClient()
 
-  const handleRoleCreated = async(newRole: RoleDTO)  => {
-    try {
-      if(connection.isLoading){
-        return
-      }
-      const response = await api.functional.roles.create(connection.connection, {
-        name: newRole.name,
-        description: newRole.description ?? 'no descrition given',
-        permissionIds: [],
-      })
-
-      if (!response.success) {
-        throw new Error('Failed to create role')
-      }
-
-      if (!response.data.status) {
-        throw new Error(response.data.message)
-      }
-
-      toast.success('Role created successfully')
+  //there seems to be some hidratation bugs that I am not really aware of
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
       queryClient.invalidateQueries({ queryKey: ['roles'] })
-      setIsCreating(false)
-    } catch (error) {
-      toast.error('Failed to create role')
-      console.error('Failed to create role:', error)
-    }
-  }
+      queryClient.invalidateQueries({ queryKey: ['permissions'] })
+    }, 10)
+    return () => clearTimeout(timeoutId)
+  }, [queryClient])
 
-  function handleRoleUpdated(updatedRole: RoleDTO) {
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/50 w-full">
@@ -123,13 +98,12 @@ function RolesPage() {
             <CardContent className="flex-1 overflow-auto p-6">
               {isCreating ? (
                 <CreateRoleForm
-                  onSuccess={handleRoleCreated}
                   onCancel={() => setIsCreating(false)}
                 />
               ) : selectedRole ? (
                 <EditRolePermissions
+                  key={selectedRole.id}
                   role={selectedRole}
-                  onSuccess={handleRoleUpdated}
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center h-full text-center p-8">
