@@ -1,84 +1,82 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { TransactionStatus } from 'backoffice-api-sdk/structures/transaction-status.enum'
-import { TransactionSubType } from 'backoffice-api-sdk/structures/transaction-subtype.enum'
-import { TransactionType } from 'backoffice-api-sdk/structures/transaction-type.enum'
-import { TransactionDTO } from 'backoffice-api-sdk/structures/TransactionDTO'
-import { UserDTO } from 'backoffice-api-sdk/structures/UserDTO'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { getSession } from '@hono/auth-js/react'
+import { useTransactions } from '@/hooks/useTransaction'
 import ExpandedUserView from '../../../../../components/custom/(admin)/user/ExpandedUserView'
+import { ResourceType } from 'backoffice-api-sdk/structures/resource-type.enum'
+import { ActionType } from 'backoffice-api-sdk/structures/action-type.enum'
+import { useExternalUser } from '../../../../../hooks/useExternalUser'
+import { useTransactionContext } from '../../../../../store/TransactionContext'
+import { useEffect } from 'react'
 
 export const Route = createFileRoute(
-  '/(protected)/_layout/(admin)/users/expaned-view/$userId',
+  '/(protected)/_layout/(admin)/users/expaned-view/$userId'
 )({
+  beforeLoad: async ({ params }) => {
+    const session = await getSession()
+
+
+    if(!session){
+      return {
+        redirect: false
+      }
+    }
+
+
+    if(params.userId === session.userData.id.toString()){
+      return {
+        redirect: false
+      }
+    }
+
+    console.log({
+      param: params.userId,
+      userId: session.userData.id.toString(),
+      checK: !session.userData.roles.map(elm => elm.permissions).flat().find(elm => elm.action === ActionType.view && elm.resource === ResourceType.admin)
+    })
+    // Check if user is admin or viewing their own profile
+    if (
+      !session.userData.roles.map(elm => elm.permissions).flat().find(elm => elm.action === ActionType.view && elm.resource === ResourceType.admin)
+    ) {
+      return {
+        redirect: true
+      }
+    }
+  },
   component: UserExpandedView,
 })
 
-// Mock user data
-const mockUser: UserDTO = {
-  id: 1,
-  email: 'john.doe@example.com',
-  createdAt: '2023-01-01T00:00:00Z',
-  updatedAt: '2023-06-01T00:00:00Z',
-  roles: [],
-}
-
-// Mock transaction data
-const mockTransactions: TransactionDTO[] = [
-  {
-    id: 1,
-    type: TransactionType.deposit,
-    subType: TransactionSubType.reward,
-    amount: 100,
-    status: TransactionStatus.success,
-    userId: 1,
-    createdAt: '2023-05-01T10:00:00Z',
-    updatedAt: '2023-05-01T10:00:00Z',
-  },
-  {
-    id: 2,
-    type: TransactionType.withdraw,
-    subType: TransactionSubType.purchase,
-    amount: 50,
-    status: TransactionStatus.success,
-    userId: 1,
-    createdAt: '2023-05-15T14:30:00Z',
-    updatedAt: '2023-05-15T14:30:00Z',
-  },
-  {
-    id: 3,
-    type: TransactionType.deposit,
-    subType: TransactionSubType.bonus,
-    amount: 25,
-    status: TransactionStatus.success,
-    userId: 1,
-    createdAt: '2023-06-01T09:15:00Z',
-    updatedAt: '2023-06-01T09:15:00Z',
-  },
-  {
-    id: 4,
-    type: TransactionType.withdraw,
-    subType: TransactionSubType.fee,
-    amount: 10,
-    status: TransactionStatus.success,
-    userId: 1,
-    createdAt: '2023-06-15T11:45:00Z',
-    updatedAt: '2023-06-15T11:45:00Z',
-  },
-  {
-    id: 5,
-    type: TransactionType.deposit,
-    subType: TransactionSubType.reward,
-    amount: 75,
-    status: TransactionStatus.success,
-    userId: 1,
-    createdAt: '2023-07-01T08:00:00Z',
-    updatedAt: '2023-07-01T08:00:00Z',
-  },
-]
-
 export default function UserExpandedView() {
+  const context = Route.useRouteContext()
+  const { redirect } = context ?? {}
   const { userId } = Route.useParams()
+  const {setOriginalTransactions, setFilteredTransactions} = useTransactionContext()
+  const navigate = useNavigate()
+  const { data: user, isLoading: isUserLoading } = useExternalUser({ 
+    userId: parseInt(userId) 
+  })
+  const { data: transactions, isLoading: isTransactionsLoading } = useTransactions({ userId: parseInt(userId) })
+  useEffect(() => {
+    if (transactions) {
+      setOriginalTransactions(transactions)
+      setFilteredTransactions(transactions)
+    }
+  }, [transactions, setOriginalTransactions, setFilteredTransactions])
 
-  console.log('Viewing user with ID:', userId)
+  if(redirect) {
+    navigate({
+      to: '/',
+      reloadDocument: true
+    })
+    return <></>
+  }
 
-  return <ExpandedUserView user={mockUser} transactions={mockTransactions} />
+  if (isUserLoading || isTransactionsLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (!user) {
+    return <div>User not found</div>
+  }
+
+  return <ExpandedUserView user={user}/>
 }

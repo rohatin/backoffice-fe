@@ -2,30 +2,43 @@ import TransactionHistory from '@/components/custom/TransactionHistory'
 import AddTransactionForm from '@/components/custom/AddTransaction'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createFileRoute } from '@tanstack/react-router'
+import { useTransactionContext } from '../../../../store/TransactionContext'
 
 const Dashboard = () => {
+  const { originalTransactions } = useTransactionContext()
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800">User Dashboard</h1>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-2xl font-semibold text-gray-700">
-              Transaction History
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <TransactionHistory transactions={[]} />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl font-semibold text-gray-700">
+    <div className="container mx-auto py-8 px-4">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gray-900">User Dashboard</h1>
+        <p className="mt-2 text-gray-600">Manage your transactions and account activity</p>
+      </div>
+      
+      <div className="space-y-8">
+        <Card className="shadow-lg">
+          <CardHeader className="border-b bg-gray-50/50">
+            <CardTitle className="text-2xl font-semibold text-gray-800">
               Add New Transaction
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             <AddTransactionForm />
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-lg">
+          <CardHeader className="border-b bg-gray-50/50">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-2xl font-semibold text-gray-800">
+                Transaction History
+              </CardTitle>
+              <span className="text-sm text-gray-500">
+                {originalTransactions.length} transactions
+              </span>
+            </div>
+          </CardHeader>
+          <CardContent className="p-6">
+            <TransactionHistory  />
           </CardContent>
         </Card>
       </div>

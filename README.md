@@ -1,18 +1,34 @@
 # Setup
 
-Mainly forked from external source since setting everything up from scratch was painful enough for the backend.
-I really think this project would be suited by next way better than just react but I wanted to follow the given guideline.
-Where I think nextjs would really shine and outperform react is at auth handling when paired with auth.js and specific for my implementation at the different environment diferentiated by an API key.  
+This project was built as part of an interview assignment to demonstrate ability to work with unfamiliar technologies and implement a functional backoffice application.
 
-<div style={{display: "flex"; column-gap: "1rem", justify-content: "center", margin-top: "1rem"}}>
-  <img width="500" alt="image" src="https://github.com/FelixFern/React-Starter-Project/assets/28957554/ffc1a46a-cbcd-4083-81a1-a69ced8758d9">
-  <img width="500" alt="image" src="https://github.com/FelixFern/React-Starter-Project/assets/28957554/ac4876e5-0b9f-4190-af42-7573924c104a">
-</div>
+## Tech Stack Rationale
+
+- **React + Context API**: While more familiar with Next.js and Zustand, this stack was chosen specifically to work outside my comfort zone and demonstrate adaptability with different state management approaches.
+
+- **TanStack Router**: Selected both as a learning opportunity and proof-of-concept implementation. Having seen it featured on Daily.dev, it provided a chance to evaluate how I handle adopting entirely new technologies under project constraints.
+
+- **API Communication**: Implemented using a custom-built SDK that's automatically generated based on the backend API routes, ensuring type-safety and consistent integration.
+
+- **Authentication**: Utilizes a combination of Auth.js with Hono for robust auth management, providing a secure and maintainable authentication layer.
 
 ## Pre-requisite
 
 - Node.js v20.xx
-- Biome.js VSC Extension (for VS Code User)
+- Biome.js VSC Extension (for VS Code users)
+
+## Core Dependencies
+
+- React v18.2.0 with TypeScript
+- Axios for data fetching
+- TanStack Router for routing
+- TanStack Query for server state management
+- Tailwind CSS for styling
+- Shadcn UI component library
+
+## Getting Started
+
+1. Install dependencies:
 
 ## Dependencies Used
 
@@ -25,13 +41,13 @@ Where I think nextjs would really shine and outperform react is at auth handling
 
 ## How to use
 
-1. Then, install all the needed dependencies using your desired package manager,
+1. Install dependencies
 
 ```
 yarn install
 ```
 
-3. After that, you can start using this template and edit as you like! and to start the project use
+2. Run the project
 
 ```
 yarn dev

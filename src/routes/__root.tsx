@@ -4,6 +4,7 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { handleBeforeRouteLoad } from '../functions/route-handling';
 import { ProtectedRoute } from '../components/ProtectedRoute';
 import { useTokenRefresh } from '../hooks/useTokenRefresh';
+import { Toaster } from 'sonner'
 
 export const Route = createRootRoute({
 	beforeLoad: handleBeforeRouteLoad,
@@ -26,6 +27,14 @@ export const Route = createRootRoute({
 				) : <Outlet/>}
 					</div>
 					<TanStackRouterDevtools />
+					<Toaster
+						position="top-right"
+						expand={false}
+						richColors
+						closeButton
+						theme="light"
+						duration={4000}
+					/>
 				</>
 			)
 		)

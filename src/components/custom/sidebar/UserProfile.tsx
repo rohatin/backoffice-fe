@@ -18,7 +18,11 @@ export function UserProfile({ user }: { user: UserDTO }) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8 flex items-center justify-center">
-            <User className="h-6 w-6" />
+            {user.firstName ? (
+              <span className="text-sm font-medium">{user.firstName[0]}</span>
+            ) : (
+              <User className="h-6 w-6" />
+            )}
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
