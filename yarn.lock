@@ -1576,10 +1576,10 @@ babel-dead-code-elimination@^1.0.8:
     "@babel/traverse" "^7.23.7"
     "@babel/types" "^7.23.6"
 
-backoffice-api-sdk@1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/backoffice-api-sdk/-/backoffice-api-sdk-1.2.5.tgz#7bedce7de6130b0848ccf997310ef76b34a74bc2"
-  integrity sha512-c8D1184r62zxvmmF3hXVBV1cRCGUDWS5BpCEPddEuYx7ZfpMAyNes6gtPQdZq8JoIeQVCN1+e9Z66roVeeWfcg==
+backoffice-api-sdk@1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/backoffice-api-sdk/-/backoffice-api-sdk-1.2.7.tgz#f0c9fb56fd39c9c8b31dfedcd1b90678ba04725f"
+  integrity sha512-7ot84QP/cG5dit26dUJ3SQfPzKzkcjGxKC09Ws1DmIvN8IdaS5jIvLSBQI25gu7Mnmtml/Z1J9oUl4voDSscfQ==
   dependencies:
     "@nestia/fetcher" "^3.4.1"
 
