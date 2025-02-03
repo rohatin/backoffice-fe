@@ -8,7 +8,6 @@ import { useRoles } from "@/hooks/useRoles"
 import { useQueryClient } from "@tanstack/react-query"
 import api from "backoffice-api-sdk"
 import { toast } from "sonner"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface NewUserFormData {
   firstName: string

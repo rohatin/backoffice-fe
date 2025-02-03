@@ -1,7 +1,7 @@
 import { FileRoutesByPath } from "@tanstack/react-router";
 import { ActionType } from "backoffice-api-sdk/structures/action-type.enum";
 import { ResourceType } from "backoffice-api-sdk/structures/resource-type.enum";
-import { Home, LucideIcon, Settings2, Sheet, Users } from "lucide-react";
+import { LucideIcon, Settings2, Sheet, Users } from "lucide-react";
 
 type ExtractRouteIds<T> = T extends { id: infer Id } ? Id : never;
 type ExtractPathnames<T> = T extends { path: infer Path } ? Path : never;

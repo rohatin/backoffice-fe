@@ -4,8 +4,6 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { motion } from "framer-motion"
 import { Label } from "@/components/ui/label"
-import { CreateRoleDTO } from 'backoffice-api-sdk/structures/CreateRoleDTO'
-import { RoleDTO } from 'backoffice-api-sdk/structures/RoleDTO'
 import { useConnection } from "../../../../hooks/useConnection"
 import { useQueryClient } from "@tanstack/react-query"
 import api from "backoffice-api-sdk"
@@ -15,7 +13,6 @@ interface CreateRoleFormProps {
   onCancel: () => void
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: <explanation>
 export default function CreateRoleForm({ onCancel }: CreateRoleFormProps) {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")

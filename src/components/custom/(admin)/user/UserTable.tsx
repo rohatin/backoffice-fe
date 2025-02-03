@@ -1,5 +1,4 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { EditUserDialog } from "./EditUserDialog"
 import { UserDTO } from 'backoffice-api-sdk/structures/UserDTO'
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"

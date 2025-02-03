@@ -12,7 +12,7 @@ export const Route = createFileRoute('/(protected)/_layout/(admin)/users/')({
 })
 
 function UsersPage() {
-  const { data: users, isLoading } = useAllUsers()
+  const { data: users } = useAllUsers()
   const queryClient = useQueryClient()
   
   useEffect(() => {

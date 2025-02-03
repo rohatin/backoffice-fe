@@ -51,7 +51,8 @@ app.use("*", initAuthConfig(c => ({
         token.accessToken = user.accessToken
         token.refreshToken = user.refreshToken
         token.expiresAt = user.expiresAt
-        token.userData = {...user, id: Number(user.id), email: user.email!}
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        token.userData = {...user, id: Number(user.id), email: user.email!} as any
       }
       return token
     },
