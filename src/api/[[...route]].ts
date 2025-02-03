@@ -4,7 +4,7 @@ import api from 'backoffice-api-sdk'
 import Credentials from "@auth/core/providers/credentials"
 import { baseConnection } from "../lib/constant"
 
-const app = new Hono({ strict: false }).basePath('/')
+const app = new Hono({ strict: false })
 
 
 app.use("*", initAuthConfig(c => ({

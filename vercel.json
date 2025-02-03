@@ -1,12 +1,18 @@
 {
   "rewrites": [
     {
-      "source": "/((?!api/.*).*)",
-      "destination": "/index.html"
-    },
-    {
       "source": "/api/(.*)",
       "destination": "/api"
+    },
+    {
+      "source": "/((?!api/.*).*)",
+      "destination": "/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "api/**/*": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
 }
