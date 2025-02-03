@@ -58,10 +58,10 @@ yarn dev
 
 
 ```typescript
-//leave it here so i do not lose, but useful for later
-Generated new client with api key { apiKey: 'c3e3c9f1-1b13-468d-a4a1-8e17a72d8746', name: 'Web Client' }
+/Deployed api keys
+Generated new client with api key { apiKey: 'dc76bbd6-473b-41c6-aee6-c0c50380f3db', name: 'Web Client' }
 Generated new client with api key {
-  apiKey: '59d18ed0-fd85-4e19-8de3-40bac30ad6a1',
+  apiKey: 'f55d6f1e-8ade-4314-9c7f-b069a40d039d',
   name: 'The fairy tale casino'
 }
 ```
