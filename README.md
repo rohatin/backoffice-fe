@@ -35,7 +35,7 @@ trigger redeploy
 ## Dependencies Used
 
 - React v18.2.0 with Typescript
-- Axios (for Data Fetching)
+- built in fetch (for Data Fetching)
 - Tanstack Router (for Routing): <https://tanstack.com/router/latest>
 - Tanstack Query (for Server Side State): <https://tanstack.com/router/latest>
 - Tailwind CSS (CSS Alternative): <https://tailwindcss.com/>
