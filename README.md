@@ -2,6 +2,8 @@
 
 This project was built as part of an interview assignment to demonstrate ability to work with unfamiliar technologies and implement a functional backoffice application.
 
+trigger redeploy
+
 ## Tech Stack Rationale
 
 - **React + Context API**: While more familiar with Next.js and Zustand, this stack was chosen specifically to work outside my comfort zone and demonstrate adaptability with different state management approaches.
