@@ -2,17 +2,11 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api"
+      "destination": "/api/[[...route]]"
     },
     {
       "source": "/((?!api/.*).*)",
       "destination": "/index.html"
     }
-  ],
-  "functions": {
-    "api/*": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
+  ]
 }
